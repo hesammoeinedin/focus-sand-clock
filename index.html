@@ -11,20 +11,21 @@
       background: transparent;
       overflow: hidden;
       user-select: none;
+      width: 100vw;
+      height: 100vh;
     }
 
+    /* ── FULL VIEW ── */
     .widget {
       width: 100vw;
       height: 100vh;
-      background: rgba(220, 240, 255, 0.55);
+      background: transparent;
       border-radius: 18px;
-      border: 1.5px solid rgba(74,156,196,0.4);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(74,156,196,0.55);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 18px 12px 14px;
+      padding: 2.5vw 2vw 2vw;
       gap: 0;
       overflow: hidden;
       -webkit-app-region: drag;
@@ -32,16 +33,33 @@
 
     .close-btn {
       position: absolute;
-      top: 10px; right: 10px;
-      width: 13px; height: 13px;
+      top: clamp(6px, 1.5vw, 12px);
+      right: clamp(22px, 6vw, 32px);
+      width: clamp(10px, 2.5vw, 14px);
+      height: clamp(10px, 2.5vw, 14px);
       border-radius: 50%;
-      background: #ff8a80;
+      background: #ff5f56;
       border: none;
       cursor: pointer;
       z-index: 10;
       -webkit-app-region: no-drag;
     }
-    .close-btn:hover { background: #ff5252; }
+    .close-btn:hover { background: #ff2d20; }
+
+    .mini-btn {
+      position: absolute;
+      top: clamp(6px, 1.5vw, 12px);
+      right: clamp(6px, 1.5vw, 12px);
+      width: clamp(10px, 2.5vw, 14px);
+      height: clamp(10px, 2.5vw, 14px);
+      border-radius: 50%;
+      background: #ffbd2e;
+      border: none;
+      cursor: pointer;
+      z-index: 10;
+      -webkit-app-region: no-drag;
+    }
+    .mini-btn:hover { background: #ffaa00; }
 
     .hg-wrap {
       cursor: pointer;
@@ -49,37 +67,53 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      flex: 1 1 auto;
+      flex: 1 1 0;
       min-height: 0;
       -webkit-app-region: no-drag;
     }
+    .hg-wrap svg {
+      width: 100%;
+      height: 100%;
+      max-width: 200px;
+      max-height: 100%;
+      display: block;
+    }
     .hg-wrap:active { transform: scale(0.97); }
 
-    .flip-hint { font-size: 10px; color: #5a9ec9; margin-top: 4px; margin-bottom: 4px; flex-shrink: 0; }
+    .flip-hint {
+      font-size: clamp(8px, 1.8vw, 11px);
+      color: #4a9cc4;
+      margin-top: 2px;
+      margin-bottom: 2px;
+      flex-shrink: 0;
+    }
 
     .time-display {
-      font-size: 28px;
+      font-size: clamp(18px, 5vw, 32px);
       font-weight: 300;
-      color: #1a4a72;
+      color: #1a5f8a;
       letter-spacing: 2px;
       flex-shrink: 0;
       -webkit-app-region: no-drag;
+      line-height: 1.1;
     }
 
     .status {
-      font-size: 12px;
-      color: #5a9ec9;
-      min-height: 16px;
+      font-size: clamp(9px, 2vw, 13px);
+      color: #4a9cc4;
+      letter-spacing: 0.3px;
+      min-height: 1.4em;
       flex-shrink: 0;
+      margin: 2px 0 3px;
     }
 
     .done-banner {
-      font-size: 11px;
-      color: #2e7d4f;
-      background: rgba(46,125,79,0.1);
+      font-size: clamp(9px, 1.9vw, 12px);
+      color: #1a6a40;
+      background: rgba(46,125,79,0.10);
       border: 1px solid rgba(46,125,79,0.25);
       border-radius: 8px;
-      padding: 4px 12px;
+      padding: 3px 10px;
       display: none;
       text-align: center;
       flex-shrink: 0;
@@ -87,62 +121,80 @@
 
     .btn-row {
       display: flex;
-      gap: 8px;
-      margin-top: 6px;
+      gap: clamp(4px, 1.5vw, 10px);
+      margin-top: 4px;
       flex-shrink: 0;
+      width: 100%;
+      justify-content: center;
       -webkit-app-region: no-drag;
     }
 
     button.ctrl {
-      border: 1px solid rgba(42,96,150,0.3);
-      background: rgba(255,255,255,0.4);
-      color: #2a6096;
+      border: 1px solid rgba(42,96,150,0.4);
+      background: rgba(42,96,150,0.08);
+      color: #1a5f8a;
       border-radius: 8px;
-      padding: 6px 16px;
-      font-size: 12px;
+      padding: clamp(4px, 1vw, 7px) clamp(10px, 3vw, 18px);
+      font-size: clamp(9px, 2vw, 13px);
       cursor: pointer;
       transition: background 0.15s;
       font-family: inherit;
+      flex: 1;
+      max-width: 80px;
     }
-    button.ctrl:hover { background: rgba(255,255,255,0.65); }
-    button.ctrl.primary { background: rgba(42,96,150,0.15); color: #1a4a72; }
+    button.ctrl:hover { background: rgba(42,96,150,0.16); }
+    button.ctrl.primary {
+      background: rgba(42,96,150,0.16);
+      color: #1a4a72;
+      font-weight: 500;
+    }
     button.ctrl.primary:hover { background: rgba(42,96,150,0.28); }
 
     .divider {
       width: 100%;
       height: 1px;
-      background: rgba(42,96,150,0.12);
-      margin: 8px 0;
+      background: rgba(42,96,150,0.15);
+      margin: clamp(4px, 1.2vw, 8px) 0;
       flex-shrink: 0;
     }
 
     .stats-section { width: 100%; flex-shrink: 0; }
 
     .stats-label {
-      font-size: 9px;
-      color: #6aaddb;
+      font-size: clamp(7px, 1.6vw, 10px);
+      color: #4a9cc4;
       letter-spacing: 0.8px;
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: clamp(3px, 1vw, 7px);
       text-align: center;
     }
 
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px;
+      gap: clamp(4px, 1.2vw, 8px);
     }
 
     .stat-card {
-      background: rgba(255,255,255,0.35);
-      border: 1px solid rgba(42,96,150,0.15);
+      background: rgba(42,96,150,0.07);
+      border: 1px solid rgba(42,96,150,0.20);
       border-radius: 10px;
-      padding: 7px 10px;
+      padding: clamp(4px, 1.2vw, 8px) clamp(4px, 1.5vw, 12px);
       text-align: center;
     }
 
-    .stat-val { font-size: 20px; font-weight: 400; color: #1a4a72; }
-    .stat-lbl { font-size: 10px; color: #6aaddb; margin-top: 2px; }
+    .stat-val {
+      font-size: clamp(14px, 4vw, 22px);
+      font-weight: 400;
+      color: #1a5f8a;
+      line-height: 1.1;
+    }
+
+    .stat-lbl {
+      font-size: clamp(7px, 1.6vw, 10px);
+      color: #4a9cc4;
+      margin-top: 2px;
+    }
 
     @keyframes shake {
       0%,100% { transform: rotate(0deg); }
@@ -152,55 +204,90 @@
       80%      { transform: rotate(6deg); }
     }
     .flipping { animation: shake 0.45s ease; }
-    @keyframes drip { 0%,100%{opacity:0.6} 50%{opacity:1} }
+
+    @keyframes drip { 0%,100%{opacity:0.5} 50%{opacity:1} }
+    #stream { animation: drip 0.8s ease-in-out infinite; display: none; }
+
+    /* ── MINI VIEW ── */
+    .mini-view {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      border-radius: 14px;
+      border: 1.5px solid rgba(74,156,196,0.55);
+      background: transparent;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      cursor: pointer;
+      position: relative;
+      -webkit-app-region: drag;
+    }
+    .mini-view svg { width: 28px; height: auto; display: block; }
+    .mini-time-lbl {
+      font-size: 11px;
+      font-weight: 400;
+      color: #1a5f8a;
+      letter-spacing: 1px;
+    }
+    .mini-run-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #ffbd2e;
+      position: absolute;
+      top: 6px; right: 6px;
+      display: none;
+    }
+
+    body.is-mini .widget   { display: none; }
+    body.is-mini .mini-view { display: flex; }
   </style>
 </head>
 <body>
+
+<!-- FULL WIDGET -->
 <div class="widget">
-
   <button class="close-btn" onclick="closeApp()" title="Close"></button>
+  <button class="mini-btn"  onclick="toggleMini()" title="Mini mode"></button>
 
-  <div class="hg-wrap" id="hgWrap" title="Click to flip" onclick="flipClock()">
-    <svg viewBox="0 0 140 228" style="width:100%; max-width:160px; height:auto;">
+  <div class="hg-wrap" id="hgWrap" onclick="flipClock()">
+    <svg viewBox="0 0 140 220" preserveAspectRatio="xMidYMid meet">
       <defs>
-        <!-- Both triangles meet exactly at y=114 (the midpoint) -->
-        <!-- Top triangle: from y=18 (top cap bottom) down to y=114 (midpoint) = 96px tall -->
-        <!-- Bot triangle: from y=210 (bot cap top) up to y=114 (midpoint) = 96px tall -->
-        <clipPath id="topClip"><polygon points="14,18 126,18 70,114"/></clipPath>
-        <clipPath id="botClip"><polygon points="14,210 126,210 70,114"/></clipPath>
+        <clipPath id="topClip"><polygon points="16,18 124,18 70,110"/></clipPath>
+        <clipPath id="botClip"><polygon points="16,208 124,208 70,114"/></clipPath>
       </defs>
 
       <!-- glass panels -->
-      <polygon points="14,18 126,18 70,114"  fill="rgba(180,220,245,0.18)"/>
-      <polygon points="14,210 126,210 70,114" fill="rgba(180,220,245,0.18)"/>
+      <polygon points="16,18 124,18 70,110"  fill="rgba(90,174,212,0.10)"/>
+      <polygon points="16,208 124,208 70,114" fill="rgba(90,174,212,0.10)"/>
 
-      <!-- top sand: starts full (height=96), drains down by moving y down -->
+      <!-- top sand -->
       <g clip-path="url(#topClip)">
-        <rect id="sandTop" x="8" y="18" width="124" height="96" fill="#7ec8e3" opacity="0.85"/>
+        <rect id="sandTop" x="10" y="18" width="120" height="92" fill="#5aaed4"/>
       </g>
-      <!-- bottom sand: starts empty (height=0), fills up by moving y up -->
+      <!-- bottom sand -->
       <g clip-path="url(#botClip)">
-        <rect id="sandBot" x="8" y="210" width="124" height="0" fill="#5aaed4" opacity="0.85"/>
+        <rect id="sandBot" x="10" y="208" width="120" height="0" fill="#5aaed4"/>
       </g>
 
       <!-- falling stream -->
-      <g id="stream" style="display:none; animation: drip 0.8s ease-in-out infinite;">
-        <rect x="68.5" y="115" width="3" height="14" rx="1.5" fill="#7ec8e3" opacity="0.9"/>
-      </g>
+      <line id="stream" x1="70" y1="113" x2="70" y2="130"
+            stroke="#5aaed4" stroke-width="1.8" stroke-linecap="round"/>
 
       <!-- frame lines -->
-      <line x1="14"  y1="18"  x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
-      <line x1="126" y1="18"  x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
-      <line x1="14"  y1="210" x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
-      <line x1="126" y1="210" x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="16"  y1="18"  x2="70" y2="110" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="124" y1="18"  x2="70" y2="110" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="16"  y1="208" x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="124" y1="208" x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
 
       <!-- caps -->
-      <rect x="6" y="5"   width="128" height="18" rx="5" fill="#5aaed4"/>
-      <rect x="6" y="210" width="128" height="18" rx="5" fill="#5aaed4"/>
-      <circle cx="24"  cy="14"  r="3" fill="#c8e8f8" opacity="0.8"/>
-      <circle cx="116" cy="14"  r="3" fill="#c8e8f8" opacity="0.8"/>
-      <circle cx="24"  cy="219" r="3" fill="#c8e8f8" opacity="0.8"/>
-      <circle cx="116" cy="219" r="3" fill="#c8e8f8" opacity="0.8"/>
+      <rect x="8" y="5"   width="124" height="18" rx="5" fill="#5aaed4"/>
+      <rect x="8" y="192" width="124" height="18" rx="5" fill="#5aaed4"/>
+      <circle cx="26"  cy="14"  r="3" fill="#c8e8f8" opacity="0.7"/>
+      <circle cx="114" cy="14"  r="3" fill="#c8e8f8" opacity="0.7"/>
+      <circle cx="26"  cy="201" r="3" fill="#c8e8f8" opacity="0.7"/>
+      <circle cx="114" cy="201" r="3" fill="#c8e8f8" opacity="0.7"/>
     </svg>
   </div>
 
@@ -229,12 +316,39 @@
       </div>
     </div>
   </div>
+</div>
 
+<!-- MINI WIDGET -->
+<div class="mini-view" id="miniView" onclick="toggleMini()">
+  <svg viewBox="0 0 140 220" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <clipPath id="mtC"><polygon points="16,18 124,18 70,110"/></clipPath>
+      <clipPath id="mbC"><polygon points="16,208 124,208 70,114"/></clipPath>
+    </defs>
+    <polygon points="16,18 124,18 70,110"  fill="rgba(90,174,212,0.10)"/>
+    <polygon points="16,208 124,208 70,114" fill="rgba(90,174,212,0.10)"/>
+    <g clip-path="url(#mtC)"><rect id="miniSandTop" x="10" y="18" width="120" height="92" fill="#5aaed4"/></g>
+    <g clip-path="url(#mbC)"><rect id="miniSandBot" x="10" y="208" width="120" height="0"  fill="#5aaed4"/></g>
+    <line x1="16"  y1="18"  x2="70" y2="110" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="124" y1="18"  x2="70" y2="110" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="16"  y1="208" x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="124" y1="208" x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
+    <rect x="8" y="5"   width="124" height="18" rx="5" fill="#5aaed4"/>
+    <rect x="8" y="192" width="124" height="18" rx="5" fill="#5aaed4"/>
+  </svg>
+  <div class="mini-time-lbl" id="miniTimeLbl">20:00</div>
+  <div class="mini-run-dot" id="miniRunDot"></div>
 </div>
 
 <script>
 const { ipcRenderer } = require('electron')
-function closeApp() { ipcRenderer.send('close-app') }
+
+function closeApp()    { ipcRenderer.send('close-app') }
+function toggleMini()  { ipcRenderer.send('toggle-mini') }
+
+ipcRenderer.on('mini-state', (_, isMini) => {
+  document.body.classList.toggle('is-mini', isMini)
+})
 
 const DURATION = 20 * 60
 let remaining = DURATION
@@ -267,13 +381,34 @@ function fmt(s) {
 
 function updateSand() {
   const pct  = remaining / DURATION
-  const topH = Math.round(pct * 96)   // top chamber is 96px tall
-  const botH = 96 - topH              // bottom gets exactly what top loses
-  document.getElementById('sandTop').setAttribute('y', 18 + (96 - topH))
+  const topH = Math.round(pct * 92)
+  const botH = 92 - topH
+
+  // full view
+  document.getElementById('sandTop').setAttribute('y', 18 + (92 - topH))
   document.getElementById('sandTop').setAttribute('height', topH)
-  document.getElementById('sandBot').setAttribute('y', 210 - botH)
+  document.getElementById('sandBot').setAttribute('y', 208 - botH)
   document.getElementById('sandBot').setAttribute('height', botH)
-  document.getElementById('stream').style.display = (running && remaining > 0) ? 'block' : 'none'
+
+  // mini view
+  document.getElementById('miniSandTop').setAttribute('y', 18 + (92 - topH))
+  document.getElementById('miniSandTop').setAttribute('height', topH)
+  document.getElementById('miniSandBot').setAttribute('y', 208 - botH)
+  document.getElementById('miniSandBot').setAttribute('height', botH)
+
+  const showStream = running && remaining > 0
+  document.getElementById('stream').style.display = showStream ? 'block' : 'none'
+  document.getElementById('miniRunDot').style.display = (running && remaining > 0) ? 'block' : 'none'
+}
+
+function addSecondToStats() {
+  secondsThisMinute++
+  if (secondsThisMinute >= 60) {
+    secondsThisMinute = 0
+    stats.focusMin++
+    saveStats(stats)
+    document.getElementById('focusMin').textContent = stats.focusMin
+  }
 }
 
 function tick() {
@@ -282,18 +417,15 @@ function tick() {
     document.getElementById('startBtn').textContent = 'Start'
     document.getElementById('statusTxt').textContent = 'done!'
     document.getElementById('doneBanner').style.display = 'block'
+    document.getElementById('miniTimeLbl').textContent = '00:00'
     updateSand()
     return
   }
   remaining--
-  secondsThisMinute++
-  if (secondsThisMinute >= 60) {
-    secondsThisMinute = 0
-    stats.focusMin++
-    saveStats(stats)
-    document.getElementById('focusMin').textContent = stats.focusMin
-  }
-  document.getElementById('timeDisp').textContent = fmt(remaining)
+  addSecondToStats()
+  const t = fmt(remaining)
+  document.getElementById('timeDisp').textContent = t
+  document.getElementById('miniTimeLbl').textContent = t
   document.getElementById('statusTxt').textContent = 'focusing…'
   updateSand()
 }
@@ -311,13 +443,16 @@ function toggleStart() {
     document.getElementById('statusTxt').textContent = 'focusing…'
     interval = setInterval(tick, 1000)
   }
+  updateSand()
 }
 
 function resetClock() {
   clearInterval(interval); interval = null; running = false
   remaining = DURATION
   secondsThisMinute = 0
-  document.getElementById('timeDisp').textContent = fmt(remaining)
+  const t = fmt(remaining)
+  document.getElementById('timeDisp').textContent = t
+  document.getElementById('miniTimeLbl').textContent = t
   document.getElementById('startBtn').textContent = 'Start'
   document.getElementById('statusTxt').textContent = 'ready'
   document.getElementById('doneBanner').style.display = 'none'
@@ -338,7 +473,9 @@ function flipClock() {
   saveStats(stats)
   document.getElementById('flipCount').textContent = stats.flips
 
-  document.getElementById('timeDisp').textContent = fmt(remaining)
+  const t = fmt(remaining)
+  document.getElementById('timeDisp').textContent = t
+  document.getElementById('miniTimeLbl').textContent = t
   updateSand()
 
   running = true
