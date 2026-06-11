@@ -1,6 +1,7 @@
 # Focus Sand Clock
 
 A 20-minute focus timer desktop widget built with Electron.
+<img width="1598" height="897" alt="image" src="https://github.com/user-attachments/assets/ff159170-67d1-49a9-9013-da6a99d546a6" />
 
 ## Features
 
