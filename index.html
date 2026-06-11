@@ -19,7 +19,7 @@
     .widget {
       width: 100vw;
       height: 100vh;
-      background: transparent;
+      background: rgba(180,220,255,0.13);
       border-radius: 18px;
       border: 1.5px solid rgba(74,156,196,0.55);
       display: flex;
@@ -31,35 +31,28 @@
       -webkit-app-region: drag;
     }
 
-    .close-btn {
+    /* yellow + red grouped top-right */
+    .btn-group {
       position: absolute;
       top: clamp(6px, 1.5vw, 12px);
-      right: clamp(22px, 6vw, 32px);
-      width: clamp(10px, 2.5vw, 14px);
-      height: clamp(10px, 2.5vw, 14px);
+      right: clamp(8px, 2vw, 14px);
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      -webkit-app-region: no-drag;
+      z-index: 10;
+    }
+    .dot-btn {
+      width: clamp(10px, 2.5vw, 13px);
+      height: clamp(10px, 2.5vw, 13px);
       border-radius: 50%;
-      background: #ff5f56;
       border: none;
       cursor: pointer;
-      z-index: 10;
-      -webkit-app-region: no-drag;
     }
-    .close-btn:hover { background: #ff2d20; }
-
-    .mini-btn {
-      position: absolute;
-      top: clamp(6px, 1.5vw, 12px);
-      right: clamp(6px, 1.5vw, 12px);
-      width: clamp(10px, 2.5vw, 14px);
-      height: clamp(10px, 2.5vw, 14px);
-      border-radius: 50%;
-      background: #ffbd2e;
-      border: none;
-      cursor: pointer;
-      z-index: 10;
-      -webkit-app-region: no-drag;
-    }
-    .mini-btn:hover { background: #ffaa00; }
+    .dot-btn.yel { background: #ffbd2e; }
+    .dot-btn.yel:hover { background: #ffaa00; }
+    .dot-btn.red { background: #ff5f56; }
+    .dot-btn.red:hover { background: #ff2d20; }
 
     .hg-wrap {
       cursor: pointer;
@@ -81,7 +74,7 @@
     .hg-wrap:active { transform: scale(0.97); }
 
     .flip-hint {
-      font-size: clamp(8px, 1.8vw, 11px);
+      font-size: clamp(9px, 2vw, 12px);
       color: #4a9cc4;
       margin-top: 2px;
       margin-bottom: 2px;
@@ -89,7 +82,7 @@
     }
 
     .time-display {
-      font-size: clamp(18px, 5vw, 32px);
+      font-size: clamp(22px, 6vw, 36px);
       font-weight: 300;
       color: #1a5f8a;
       letter-spacing: 2px;
@@ -99,7 +92,7 @@
     }
 
     .status {
-      font-size: clamp(9px, 2vw, 13px);
+      font-size: clamp(11px, 2.2vw, 14px);
       color: #4a9cc4;
       letter-spacing: 0.3px;
       min-height: 1.4em;
@@ -108,7 +101,7 @@
     }
 
     .done-banner {
-      font-size: clamp(9px, 1.9vw, 12px);
+      font-size: clamp(10px, 2vw, 13px);
       color: #1a6a40;
       background: rgba(46,125,79,0.10);
       border: 1px solid rgba(46,125,79,0.25);
@@ -135,7 +128,7 @@
       color: #1a5f8a;
       border-radius: 8px;
       padding: clamp(4px, 1vw, 7px) clamp(10px, 3vw, 18px);
-      font-size: clamp(9px, 2vw, 13px);
+      font-size: clamp(11px, 2.2vw, 14px);
       cursor: pointer;
       transition: background 0.15s;
       font-family: inherit;
@@ -161,7 +154,7 @@
     .stats-section { width: 100%; flex-shrink: 0; }
 
     .stats-label {
-      font-size: clamp(7px, 1.6vw, 10px);
+      font-size: clamp(8px, 1.8vw, 11px);
       color: #4a9cc4;
       letter-spacing: 0.8px;
       text-transform: uppercase;
@@ -184,14 +177,14 @@
     }
 
     .stat-val {
-      font-size: clamp(14px, 4vw, 22px);
+      font-size: clamp(16px, 4.5vw, 24px);
       font-weight: 400;
       color: #1a5f8a;
       line-height: 1.1;
     }
 
     .stat-lbl {
-      font-size: clamp(7px, 1.6vw, 10px);
+      font-size: clamp(8px, 1.8vw, 11px);
       color: #4a9cc4;
       margin-top: 2px;
     }
@@ -215,18 +208,34 @@
       height: 100vh;
       border-radius: 14px;
       border: 1.5px solid rgba(74,156,196,0.55);
-      background: transparent;
+      background: rgba(180,220,255,0.13);
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 2px;
-      cursor: pointer;
+      gap: 3px;
       position: relative;
+      /* no -webkit-app-region here so clicks register for expand */
+    }
+    .mini-drag {
+      position: absolute;
+      inset: 0;
       -webkit-app-region: drag;
+      border-radius: 14px;
+      z-index: 0;
+    }
+    .mini-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      -webkit-app-region: no-drag;
+      cursor: pointer;
     }
     .mini-view svg { width: 28px; height: auto; display: block; }
     .mini-time-lbl {
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 400;
       color: #1a5f8a;
       letter-spacing: 1px;
@@ -238,6 +247,7 @@
       position: absolute;
       top: 6px; right: 6px;
       display: none;
+      z-index: 2;
     }
 
     body.is-mini .widget   { display: none; }
@@ -248,8 +258,11 @@
 
 <!-- FULL WIDGET -->
 <div class="widget">
-  <button class="close-btn" onclick="closeApp()" title="Close"></button>
-  <button class="mini-btn"  onclick="toggleMini()" title="Mini mode"></button>
+
+  <div class="btn-group">
+    <button class="dot-btn yel" onclick="toggleMini()" title="Mini mode"></button>
+    <button class="dot-btn red" onclick="closeApp()"   title="Close"></button>
+  </div>
 
   <div class="hg-wrap" id="hgWrap" onclick="flipClock()">
     <svg viewBox="0 0 140 220" preserveAspectRatio="xMidYMid meet">
@@ -258,30 +271,24 @@
         <clipPath id="botClip"><polygon points="16,208 124,208 70,114"/></clipPath>
       </defs>
 
-      <!-- glass panels -->
       <polygon points="16,18 124,18 70,110"  fill="rgba(90,174,212,0.10)"/>
       <polygon points="16,208 124,208 70,114" fill="rgba(90,174,212,0.10)"/>
 
-      <!-- top sand -->
       <g clip-path="url(#topClip)">
         <rect id="sandTop" x="10" y="18" width="120" height="92" fill="#5aaed4"/>
       </g>
-      <!-- bottom sand -->
       <g clip-path="url(#botClip)">
         <rect id="sandBot" x="10" y="208" width="120" height="0" fill="#5aaed4"/>
       </g>
 
-      <!-- falling stream -->
       <line id="stream" x1="70" y1="113" x2="70" y2="130"
             stroke="#5aaed4" stroke-width="1.8" stroke-linecap="round"/>
 
-      <!-- frame lines -->
       <line x1="16"  y1="18"  x2="70" y2="110" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
       <line x1="124" y1="18"  x2="70" y2="110" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
       <line x1="16"  y1="208" x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
       <line x1="124" y1="208" x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
 
-      <!-- caps -->
       <rect x="8" y="5"   width="124" height="18" rx="5" fill="#5aaed4"/>
       <rect x="8" y="192" width="124" height="18" rx="5" fill="#5aaed4"/>
       <circle cx="26"  cy="14"  r="3" fill="#c8e8f8" opacity="0.7"/>
@@ -316,35 +323,39 @@
       </div>
     </div>
   </div>
+
 </div>
 
 <!-- MINI WIDGET -->
-<div class="mini-view" id="miniView" onclick="toggleMini()">
-  <svg viewBox="0 0 140 220" preserveAspectRatio="xMidYMid meet">
-    <defs>
-      <clipPath id="mtC"><polygon points="16,18 124,18 70,110"/></clipPath>
-      <clipPath id="mbC"><polygon points="16,208 124,208 70,114"/></clipPath>
-    </defs>
-    <polygon points="16,18 124,18 70,110"  fill="rgba(90,174,212,0.10)"/>
-    <polygon points="16,208 124,208 70,114" fill="rgba(90,174,212,0.10)"/>
-    <g clip-path="url(#mtC)"><rect id="miniSandTop" x="10" y="18" width="120" height="92" fill="#5aaed4"/></g>
-    <g clip-path="url(#mbC)"><rect id="miniSandBot" x="10" y="208" width="120" height="0"  fill="#5aaed4"/></g>
-    <line x1="16"  y1="18"  x2="70" y2="110" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
-    <line x1="124" y1="18"  x2="70" y2="110" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
-    <line x1="16"  y1="208" x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
-    <line x1="124" y1="208" x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
-    <rect x="8" y="5"   width="124" height="18" rx="5" fill="#5aaed4"/>
-    <rect x="8" y="192" width="124" height="18" rx="5" fill="#5aaed4"/>
-  </svg>
-  <div class="mini-time-lbl" id="miniTimeLbl">20:00</div>
+<div class="mini-view" id="miniView">
+  <div class="mini-drag"></div>
   <div class="mini-run-dot" id="miniRunDot"></div>
+  <div class="mini-content" onclick="toggleMini()">
+    <svg viewBox="0 0 140 220" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <clipPath id="mtC"><polygon points="16,18 124,18 70,110"/></clipPath>
+        <clipPath id="mbC"><polygon points="16,208 124,208 70,114"/></clipPath>
+      </defs>
+      <polygon points="16,18 124,18 70,110"  fill="rgba(90,174,212,0.10)"/>
+      <polygon points="16,208 124,208 70,114" fill="rgba(90,174,212,0.10)"/>
+      <g clip-path="url(#mtC)"><rect id="miniSandTop" x="10" y="18"  width="120" height="92" fill="#5aaed4"/></g>
+      <g clip-path="url(#mbC)"><rect id="miniSandBot" x="10" y="208" width="120" height="0"  fill="#5aaed4"/></g>
+      <line x1="16"  y1="18"  x2="70" y2="110" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="124" y1="18"  x2="70" y2="110" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="16"  y1="208" x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="124" y1="208" x2="70" y2="114" stroke="#4a9cc4" stroke-width="2.2" stroke-linecap="round"/>
+      <rect x="8" y="5"   width="124" height="18" rx="5" fill="#5aaed4"/>
+      <rect x="8" y="192" width="124" height="18" rx="5" fill="#5aaed4"/>
+    </svg>
+    <div class="mini-time-lbl" id="miniTimeLbl">20:00</div>
+  </div>
 </div>
 
 <script>
 const { ipcRenderer } = require('electron')
 
-function closeApp()    { ipcRenderer.send('close-app') }
-function toggleMini()  { ipcRenderer.send('toggle-mini') }
+function closeApp()   { ipcRenderer.send('close-app') }
+function toggleMini() { ipcRenderer.send('toggle-mini') }
 
 ipcRenderer.on('mini-state', (_, isMini) => {
   document.body.classList.toggle('is-mini', isMini)
@@ -384,20 +395,18 @@ function updateSand() {
   const topH = Math.round(pct * 92)
   const botH = 92 - topH
 
-  // full view
   document.getElementById('sandTop').setAttribute('y', 18 + (92 - topH))
   document.getElementById('sandTop').setAttribute('height', topH)
   document.getElementById('sandBot').setAttribute('y', 208 - botH)
   document.getElementById('sandBot').setAttribute('height', botH)
 
-  // mini view
   document.getElementById('miniSandTop').setAttribute('y', 18 + (92 - topH))
   document.getElementById('miniSandTop').setAttribute('height', topH)
   document.getElementById('miniSandBot').setAttribute('y', 208 - botH)
   document.getElementById('miniSandBot').setAttribute('height', botH)
 
   const showStream = running && remaining > 0
-  document.getElementById('stream').style.display = showStream ? 'block' : 'none'
+  document.getElementById('stream').style.display    = showStream ? 'block' : 'none'
   document.getElementById('miniRunDot').style.display = (running && remaining > 0) ? 'block' : 'none'
 }
 
@@ -424,7 +433,7 @@ function tick() {
   remaining--
   addSecondToStats()
   const t = fmt(remaining)
-  document.getElementById('timeDisp').textContent = t
+  document.getElementById('timeDisp').textContent  = t
   document.getElementById('miniTimeLbl').textContent = t
   document.getElementById('statusTxt').textContent = 'focusing…'
   updateSand()
@@ -451,10 +460,10 @@ function resetClock() {
   remaining = DURATION
   secondsThisMinute = 0
   const t = fmt(remaining)
-  document.getElementById('timeDisp').textContent = t
+  document.getElementById('timeDisp').textContent   = t
   document.getElementById('miniTimeLbl').textContent = t
-  document.getElementById('startBtn').textContent = 'Start'
-  document.getElementById('statusTxt').textContent = 'ready'
+  document.getElementById('startBtn').textContent   = 'Start'
+  document.getElementById('statusTxt').textContent  = 'ready'
   document.getElementById('doneBanner').style.display = 'none'
   updateSand()
 }
@@ -474,12 +483,12 @@ function flipClock() {
   document.getElementById('flipCount').textContent = stats.flips
 
   const t = fmt(remaining)
-  document.getElementById('timeDisp').textContent = t
+  document.getElementById('timeDisp').textContent   = t
   document.getElementById('miniTimeLbl').textContent = t
   updateSand()
 
   running = true
-  document.getElementById('startBtn').textContent = 'Pause'
+  document.getElementById('startBtn').textContent  = 'Pause'
   document.getElementById('statusTxt').textContent = 'focusing…'
   interval = setInterval(tick, 1000)
 }
