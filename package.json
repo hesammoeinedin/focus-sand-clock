@@ -1,0 +1,12 @@
+{
+  "name": "sand-clock",
+  "version": "1.0.0",
+  "description": "20-minute focus sand clock desktop widget",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^42.4.0"
+  }
+}
