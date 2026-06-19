@@ -412,8 +412,8 @@ function fmt(s) {
 
 function updateSand() {
   const pct  = remaining / DURATION
-  const topH = Math.round(pct * TOP_H)
-  const botH = Math.round((1 - pct) * BOT_H)
+  const topH = Math.round(pct * 94)
+  const botH = 94 - topH
 
   document.getElementById('sandTop').setAttribute('y', 18 + (TOP_H - topH))
   document.getElementById('sandTop').setAttribute('height', topH)
