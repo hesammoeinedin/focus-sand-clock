@@ -21,64 +21,82 @@
       height: 100vh;
       background: rgba(255,255,255,0.92);
       border-radius: 18px;
-      border: 1.5px solid rgba(74,156,196,0.55);
+      border: 1px solid rgba(74,156,196,0.40);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2.5vw 2vw 2vw;
-      gap: 0;
       overflow: hidden;
       -webkit-app-region: drag;
     }
 
-    /* yellow + red grouped top-right */
-    .btn-group {
-      position: absolute;
-      top: clamp(6px, 1.5vw, 12px);
-      right: clamp(8px, 2vw, 14px);
+    /* fixed title bar */
+    .titlebar {
+      width: 100%;
+      height: 26px;
+      background: rgba(74,156,196,0.06);
+      border-bottom: 0.5px solid rgba(74,156,196,0.12);
       display: flex;
-      gap: 6px;
       align-items: center;
-      -webkit-app-region: no-drag;
-      z-index: 10;
+      justify-content: flex-end;
+      padding: 0 14px;
+      gap: 6px;
+      flex-shrink: 0;
+      -webkit-app-region: drag;
     }
-    .dot-btn {
-      width: clamp(10px, 2.5vw, 13px);
-      height: clamp(10px, 2.5vw, 13px);
+
+    .tbtn {
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
       border: none;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5px;
+      font-weight: 300;
+      line-height: 1;
+      color: rgba(0,0,0,0.35);
+      font-family: inherit;
+      flex-shrink: 0;
+      -webkit-app-region: no-drag;
+      padding: 0;
     }
-    .dot-btn.yel { background: #ffbd2e; }
-    .dot-btn.yel:hover { background: #ffaa00; }
-    .dot-btn.red { background: #ff5f56; }
-    .dot-btn.red:hover { background: #ff2d20; }
+    .tbtn.yel { background: #ffbd2e; }
+    .tbtn.yel:hover { background: #ffaa00; }
+    .tbtn.red { background: #ff5f56; }
+    .tbtn.red:hover { background: #ff2d20; }
 
+    /* hourglass drag area */
     .hg-wrap {
-      cursor: pointer;
+      cursor: grab;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
       flex: 1 1 0;
       min-height: 0;
-      -webkit-app-region: no-drag;
+      -webkit-app-region: drag;
     }
+    .hg-wrap:active { cursor: grabbing; }
     .hg-wrap svg {
       width: 100%;
       height: 100%;
       max-width: 200px;
       max-height: 100%;
       display: block;
+      pointer-events: none;
     }
-    .hg-wrap:active { transform: scale(0.97); }
 
-    .flip-hint {
-      font-size: clamp(9px, 2vw, 12px);
-      color: #333333;
-      margin-top: 2px;
-      margin-bottom: 2px;
-      flex-shrink: 0;
+    /* body content */
+    .wbody {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2px 2vw 2vw;
+      gap: 0;
+      -webkit-app-region: no-drag;
     }
 
     .time-display {
@@ -87,7 +105,6 @@
       color: #111111;
       letter-spacing: 2px;
       flex-shrink: 0;
-      -webkit-app-region: no-drag;
       line-height: 1.1;
     }
 
@@ -119,7 +136,6 @@
       flex-shrink: 0;
       width: 100%;
       justify-content: center;
-      -webkit-app-region: no-drag;
     }
 
     button.ctrl {
@@ -207,14 +223,14 @@
       width: 100vw;
       height: 100vh;
       border-radius: 14px;
-      border: 1.5px solid rgba(74,156,196,0.55);
+      border: 1px solid rgba(74,156,196,0.40);
       background: rgba(255,255,255,0.92);
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 3px;
       position: relative;
-      /* no -webkit-app-region here so clicks register for expand */
+      cursor: pointer;
     }
     .mini-drag {
       position: absolute;
@@ -241,7 +257,7 @@
       letter-spacing: 1px;
     }
     .mini-run-dot {
-      width: 6px; height: 6px;
+      width: 5px; height: 5px;
       border-radius: 50%;
       background: #ffbd2e;
       position: absolute;
@@ -250,7 +266,7 @@
       z-index: 2;
     }
 
-    body.is-mini .widget   { display: none; }
+    body.is-mini .widget    { display: none; }
     body.is-mini .mini-view { display: flex; }
   </style>
 </head>
@@ -259,12 +275,12 @@
 <!-- FULL WIDGET -->
 <div class="widget">
 
-  <div class="btn-group">
-    <button class="dot-btn yel" onclick="toggleMini()" title="Mini mode"></button>
-    <button class="dot-btn red" onclick="closeApp()"   title="Close"></button>
+  <div class="titlebar">
+    <button class="tbtn yel" onclick="toggleMini()" title="Mini mode">─</button>
+    <button class="tbtn red" onclick="closeApp()"   title="Close">✕</button>
   </div>
 
-  <div class="hg-wrap" id="hgWrap" onclick="flipClock()">
+  <div class="hg-wrap" id="hgWrap">
     <svg viewBox="0 0 140 220" preserveAspectRatio="xMidYMid meet">
       <defs>
         <clipPath id="topClip"><polygon points="16,18 124,18 70,110"/></clipPath>
@@ -298,28 +314,29 @@
     </svg>
   </div>
 
-  <div class="flip-hint">click to flip &amp; start</div>
-  <div class="time-display" id="timeDisp">20:00</div>
-  <div class="status" id="statusTxt">ready</div>
-  <div class="done-banner" id="doneBanner">session complete — flip to go again</div>
+  <div class="wbody">
+    <div class="time-display" id="timeDisp">20:00</div>
+    <div class="status" id="statusTxt">ready</div>
+    <div class="done-banner" id="doneBanner">session complete — flip to go again</div>
 
-  <div class="btn-row">
-    <button class="ctrl primary" id="startBtn" onclick="toggleStart()">Start</button>
-    <button class="ctrl" onclick="resetClock()">Reset</button>
-  </div>
+    <div class="btn-row">
+      <button class="ctrl primary" id="startBtn" onclick="toggleStart()">Start</button>
+      <button class="ctrl" onclick="flipClock()">Reset</button>
+    </div>
 
-  <div class="divider"></div>
+    <div class="divider"></div>
 
-  <div class="stats-section">
-    <div class="stats-label">Today</div>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-val" id="flipCount">0</div>
-        <div class="stat-lbl">flips</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-val" id="focusMin">0</div>
-        <div class="stat-lbl">focus min</div>
+    <div class="stats-section">
+      <div class="stats-label">Today</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-val" id="flipCount">0</div>
+          <div class="stat-lbl">flips</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="focusMin">0</div>
+          <div class="stat-lbl">focus min</div>
+        </div>
       </div>
     </div>
   </div>
@@ -362,6 +379,9 @@ ipcRenderer.on('mini-state', (_, isMini) => {
 })
 
 const DURATION = 20 * 60
+const TOP_H = 92
+const BOT_H = 94
+
 let remaining = DURATION
 let running   = false
 let interval  = null
@@ -392,22 +412,22 @@ function fmt(s) {
 
 function updateSand() {
   const pct  = remaining / DURATION
-  const topH = Math.round(pct * 92)
-  const botH = 92 - topH
+  const topH = Math.round(pct * TOP_H)
+  const botH = Math.round((1 - pct) * BOT_H)
 
-  document.getElementById('sandTop').setAttribute('y', 18 + (92 - topH))
+  document.getElementById('sandTop').setAttribute('y', 18 + (TOP_H - topH))
   document.getElementById('sandTop').setAttribute('height', topH)
   document.getElementById('sandBot').setAttribute('y', 208 - botH)
   document.getElementById('sandBot').setAttribute('height', botH)
 
-  document.getElementById('miniSandTop').setAttribute('y', 18 + (92 - topH))
+  document.getElementById('miniSandTop').setAttribute('y', 18 + (TOP_H - topH))
   document.getElementById('miniSandTop').setAttribute('height', topH)
   document.getElementById('miniSandBot').setAttribute('y', 208 - botH)
   document.getElementById('miniSandBot').setAttribute('height', botH)
 
   const showStream = running && remaining > 0
-  document.getElementById('stream').style.display    = showStream ? 'block' : 'none'
-  document.getElementById('miniRunDot').style.display = (running && remaining > 0) ? 'block' : 'none'
+  document.getElementById('stream').style.display     = showStream ? 'block' : 'none'
+  document.getElementById('miniRunDot').style.display = showStream ? 'block' : 'none'
 }
 
 function addSecondToStats() {
@@ -423,48 +443,35 @@ function addSecondToStats() {
 function tick() {
   if (remaining <= 0) {
     clearInterval(interval); interval = null; running = false
-    document.getElementById('startBtn').textContent = 'Start'
+    document.getElementById('startBtn').textContent  = 'Start'
     document.getElementById('statusTxt').textContent = 'done!'
     document.getElementById('doneBanner').style.display = 'block'
-    document.getElementById('miniTimeLbl').textContent = '00:00'
+    document.getElementById('miniTimeLbl').textContent  = '00:00'
     updateSand()
     return
   }
   remaining--
   addSecondToStats()
   const t = fmt(remaining)
-  document.getElementById('timeDisp').textContent  = t
+  document.getElementById('timeDisp').textContent    = t
   document.getElementById('miniTimeLbl').textContent = t
-  document.getElementById('statusTxt').textContent = 'focusing…'
+  document.getElementById('statusTxt').textContent   = 'focusing…'
   updateSand()
 }
 
 function toggleStart() {
   if (running) {
     clearInterval(interval); interval = null; running = false
-    document.getElementById('startBtn').textContent = 'Start'
+    document.getElementById('startBtn').textContent  = 'Start'
     document.getElementById('statusTxt').textContent = 'paused'
   } else {
     if (remaining <= 0) { remaining = DURATION; updateSand() }
     document.getElementById('doneBanner').style.display = 'none'
     running = true
-    document.getElementById('startBtn').textContent = 'Pause'
+    document.getElementById('startBtn').textContent  = 'Pause'
     document.getElementById('statusTxt').textContent = 'focusing…'
     interval = setInterval(tick, 1000)
   }
-  updateSand()
-}
-
-function resetClock() {
-  clearInterval(interval); interval = null; running = false
-  remaining = DURATION
-  secondsThisMinute = 0
-  const t = fmt(remaining)
-  document.getElementById('timeDisp').textContent   = t
-  document.getElementById('miniTimeLbl').textContent = t
-  document.getElementById('startBtn').textContent   = 'Start'
-  document.getElementById('statusTxt').textContent  = 'ready'
-  document.getElementById('doneBanner').style.display = 'none'
   updateSand()
 }
 
@@ -483,7 +490,7 @@ function flipClock() {
   document.getElementById('flipCount').textContent = stats.flips
 
   const t = fmt(remaining)
-  document.getElementById('timeDisp').textContent   = t
+  document.getElementById('timeDisp').textContent    = t
   document.getElementById('miniTimeLbl').textContent = t
   updateSand()
 

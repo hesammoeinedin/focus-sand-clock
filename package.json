@@ -4,9 +4,29 @@
   "description": "20-minute focus sand clock desktop widget",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build:portable": "electron-builder --win portable --publish never"
+  },
+  "build": {
+    "appId": "com.hesam.focussandclock",
+    "productName": "Focus Sand Clock",
+    "directories": {
+      "output": "dist-portable"
+    },
+    "win": {
+      "target": "portable"
+    },
+    "portable": {
+      "artifactName": "FocusSandClock-portable.exe"
+    },
+    "files": [
+      "main.js",
+      "index.html",
+      "package.json"
+    ]
   },
   "devDependencies": {
-    "electron": "^42.4.0"
+    "electron": "^42.4.0",
+    "electron-builder": "^25.1.8"
   }
 }
